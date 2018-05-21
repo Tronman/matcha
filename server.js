@@ -2,13 +2,15 @@
 var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser')
 var mongoose = require('mongoose');
 var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
+
+// var MongoStore = require('connect-mongo')(session);
 //var configDB = require('./config/database.js');
 const port = process.env.PORT || 3000;
 
-mongoose.connect('mongod:localhost/testForAuth');
+mongoose.connect('mongodb://localhost:27017/db');
 var db = mongoose.connection;
 
 db.once('error', console.error.bind(console, 'connection error: '));
@@ -18,16 +20,15 @@ db.once('open', ()=>{
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:false}));
-app.use(morgan('dev'));
 app.use(cookieParser());
 
 app.use(session({
     secret:'my-secret',
     resave:false,
-    saveUninitialized:false,
-    store: new MongoStore({
-        mongooseConnection: db
-    })
+    saveUninitialized:false
+    // store: new MongoStore({
+    //     mongooseConnection: db
+    // })
 }));
 
 app.use(express.static(__dirname + '/templates'));
