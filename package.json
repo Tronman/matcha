@@ -1,0 +1,30 @@
+{
+  "name": "matcha",
+  "version": "1.0.0",
+  "description": "server for the match wethinkcode project",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "social",
+    "media",
+    "dating",
+    "tenda",
+    "facebook",
+    "node",
+    "angula"
+  ],
+  "author": "Thulani Zondo",
+  "license": "ISC",
+  "dependencies": {
+    "cookie-parser": "^1.4.3",
+    "ejs": "latest",
+    "express": "^4.16.3",
+    "express-session": "^1.0.6",
+    "mongoose": "^5.0.15",
+    "morgan": "^1.9.0",
+    "nodemon": "^1.17.4",
+    "npm": "^5.8.0"
+  }
+}
