@@ -1,16 +1,14 @@
-const express = require('express');
-const app = express();
-const port = process.env.PORT || 3000;
 
-
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var morgan = require('morgan');
+var express = require('express');
+var app = express();
+var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 //var configDB = require('./config/database.js');
+const port = process.env.PORT || 3000;
 
-mangoose.connect('mongod:localhost/testForAuth');
+mongoose.connect('mongod:localhost/testForAuth');
 var db = mongoose.connection;
 
 db.once('error', console.error.bind(console, 'connection error: '));
@@ -18,8 +16,8 @@ db.once('open', ()=>{
     console.log('Database connections success!');
 });
 
-app.use(json())
-app.use(bodyParser.urlencoded({extended:false}))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:false}));
 app.use(morgan('dev'));
 app.use(cookieParser());
 
