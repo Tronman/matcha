@@ -45,7 +45,7 @@ router.post('/', (req, res, next)=>{
                 return res.redirect('/profile');
             }
         });
-
+        
     } else {
         var err = new Error(' All field are required.');
         err.status = 400;
