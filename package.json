@@ -20,6 +20,7 @@
   "dependencies": {
     "bcrypt": "^2.0.1",
     "connect-mongodb-session": "^2.0.2",
+    "connect-mongostore": "^0.1.4",
     "cookie-parser": "^1.4.3",
     "ejs": "latest",
     "express": "^4.16.3",

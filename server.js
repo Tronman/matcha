@@ -1,13 +1,14 @@
 
 var express = require('express');
-var app = express();
 var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser')
+var cookieParser = require('cookie-parser');
 var mongoose = require('mongoose');
-var session = require('express-session');
+const  session = require('express-session');
 
-// var MongoStore = require('connect-mongo')(session);
+var MongoStore = require('connect-mongodb-session')(session);
 //var configDB = require('./config/database.js');
+var app = express();
+
 const port = process.env.PORT || 3000;
 
 mongoose.connect('mongodb://localhost:27017/db');
@@ -25,27 +26,24 @@ app.use(cookieParser());
 app.use(session({
     secret:'my-secret',
     resave:false,
-    saveUninitialized:false
-    // store: new MongoStore({
-    //     mongooseConnection: db
-    // })
+    saveUninitialized:false,
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 app.use(express.static(__dirname + '/templates'));
 
 var routes = require('./routes/router');
 app.use('/',routes);
-
 app.use((req,res,next)=>{
     var err = new Error('File not found');
-    res.status = 404;
+    err.status = 404;
     next(err);
 });
 
 app.use((err, req,res,next)=>{
     res.status(err.status || 500);
-    ers.send(err.message);
-})
+    res.send(err.message);
+});
 
 app.listen(port, ()=>{
     console.log('Express app listening on port', port);
