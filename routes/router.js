@@ -4,12 +4,12 @@ var User = require('../models/user');
 
 // GET route for reading data
 router.get('/', (req, res, next)=>{
-    return res.sendFile(path.join(__dirname + ' ../index.html'));
+    return res.sendFile(path.join(__dirname + '/templates/index.html'));
 });
 
 //POST rout for updating data
 router.post('/', (req, res, next)=>{
-    if(req.body.password !== res.body.passwordConf){
+     if(req.body.password !== req.body.passwordConf){
         var err = new Error('Password do not match');
         err.status = 400;
         res.send("password dont match");
@@ -39,7 +39,7 @@ router.post('/', (req, res, next)=>{
             if(error || !user){
                 var err = new Error('wrong email or password');
                 err.status = 401;
-                return next(error);
+                return next(err);
             } else{
                 req.session.userId = user._id;
                 return res.redirect('/profile');

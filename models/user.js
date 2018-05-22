@@ -17,7 +17,7 @@ var UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true,
-  },
+   },
   passwordConf: {
     type: String,
     required: true,
@@ -44,15 +44,24 @@ UserSchema.statics.authenticate = (email, password, callback)=>{
     })
 }
 
-UserSchema.pre('save',(next)=>{
-    var user = this;
-    bcrypt.hash(user.password, 10, (err, hash)=>{
-        if(err){
-            return next(err);
-        }
-        user.password = hash;
-        next();
-    })
-});
+UserSchema.pre('save', function(next) {                                                                                                                                        
+    if(this.password) {                                                                                                                                                        
+        var salt = bcrypt.genSaltSync(10)                                                                                                                                     
+        this.password  = bcrypt.hashSync(this.password, salt)                                                                                                                
+    }                                                                                                                                                                          
+    next()                                                                                                                                                                     
+})  
+// UserSchema.pre('save',(next)=>{
+//     var user = this;
+//     console.log(user);
+//     bcrypt.hash(user.password, 10, (err, hash)=>{
+//         if(err){
+//             return next(err);
+//         }
+//         user.password = hash;
+//         console.log(hash);
+//         next();
+//     })
+// });
 var User = mongoose.model('User', UserSchema);
 module.exports = User;
